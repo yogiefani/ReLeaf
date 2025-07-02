@@ -13,12 +13,16 @@ export default {
         extend: {
             fontFamily: {
                 sans: ["Figtree", ...defaultTheme.fontFamily.sans],
+                playfair: ['"Playfair Display"', "serif"],
+                oxygen: ["Oxygen", "sans-serif"],
             },
             colors: {
                 "brand-background": "#E5D3B3",
                 "brand-primary": "#664229",
                 "brand-primary-hover": "#5a4238",
                 "text-primary": "#987554",
+                "brand-beige": "#E9DDCF",
+                "brand-dark": "#4A3F35",
             },
         },
     },
