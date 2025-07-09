@@ -12,7 +12,7 @@ services:
   # Layanan Web Aplikasi Laravel
   - type: web
     name: ReLeaf
-    runtime: php # PERBAIKAN: Nilai 'runtime' yang benar adalah 'php'
+
     plan: free
     region: singapore
 
