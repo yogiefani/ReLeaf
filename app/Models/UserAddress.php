@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class CartItem extends Model
+class UserAddress extends Model
 {
     use HasFactory;
     protected $guarded = ['id'];
@@ -13,10 +13,5 @@ class CartItem extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
-    }
-
-    public function book()
-    {
-        return $this->belongsTo(Book::class);
     }
 }

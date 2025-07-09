@@ -3,9 +3,15 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Models\Role;
+use App\Models\CartItem;
+use App\Models\UserAddress;
+use App\Models\BookExchange;
+use App\Models\CoinTransaction;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
@@ -53,5 +59,24 @@ class User extends Authenticatable
     public function roles()
     {
         return $this->belongsToMany(Role::class);
+    }
+    public function addresses(): HasMany
+    {
+        return $this->hasMany(UserAddress::class);
+    }
+
+    public function bookExchanges(): HasMany
+    {
+        return $this->hasMany(BookExchange::class);
+    }
+
+    public function coinTransactions(): HasMany
+    {
+        return $this->hasMany(CoinTransaction::class);
+    }
+
+    public function cartItems(): HasMany
+    {
+        return $this->hasMany(CartItem::class);
     }
 }
