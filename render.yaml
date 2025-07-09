@@ -3,13 +3,17 @@
 # Simpan file ini di root direktori proyek Anda.
 
 services:
+  # Database PostgreSQL (Layanan Gratis)
   - type: pserv
     name: releaf_db25
     region: singapore
+    # Properti 'version' direkomendasikan, tapi saya hapus sementara
+    # untuk mencocokkan file Anda dan menghindari error lain.
 
+  # Layanan Web Aplikasi Laravel
   - type: web
     name: ReLeaf
-    runtime: php
+    runtime: php # PERBAIKAN: Nilai 'runtime' yang benar adalah 'php'
     plan: free
     region: singapore
 
