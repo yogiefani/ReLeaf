@@ -85,4 +85,8 @@ Route::middleware(['dontHaveSuperAdmin'])->group(function () {
     Route::get('/my-orders', [OrderController::class, 'index'])->name('orders.index');
 });
 
+Route::get('/health', function () {
+    return response()->json(['status' => 'ok']);
+});
+
 require __DIR__.'/auth.php';
