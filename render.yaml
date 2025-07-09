@@ -5,9 +5,9 @@
 services:
   # Database PostgreSQL (Layanan Gratis)
   - type: pserv
-    name: releaf_db25
+    name: ReLeaf
     region: singapore
-    version: "14"
+    env: php
 
   # Layanan Web Aplikasi Laravel
   - type: web
