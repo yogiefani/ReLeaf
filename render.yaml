@@ -34,8 +34,3 @@ services:
         fromDatabase:
           name: releaf_db25
           property: connectionString
-      - key: APP_URL
-        fromService:
-          type: web
-          name: ReLeaf
-          property: url
