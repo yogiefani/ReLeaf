@@ -32,10 +32,10 @@
         <div class="mt-12 border-t border-gray-400 pt-6 flex flex-col md:flex-row justify-between items-center">
             <p>Copyright © {{ date('Y') }} AIRBook</p>
             <div class="flex space-x-4 mt-4 md:mt-0">
-                <a href="#"><img src="https://simpleicons.org/icons/x.svg" class="h-5 w-5 filter invert"></a>
-                <a href="#"><img src="https://simpleicons.org/icons/instagram.svg" class="h-5 w-5 filter invert"></a>
-                <a href="#"><img src="https://simpleicons.org/icons/youtube.svg" class="h-5 w-5 filter invert"></a>
-                <a href="#"><img src="https://simpleicons.org/icons/tiktok.svg" class="h-5 w-5 filter invert"></a>
+                <a href="#"><img src="https://simpleicons.org/icons/x.svg" class="h-5 w-5 "></a>
+                <a href="#"><img src="https://simpleicons.org/icons/instagram.svg" class="h-5 w-5 "></a>
+                <a href="#"><img src="https://simpleicons.org/icons/youtube.svg" class="h-5 w-5 "></a>
+                <a href="#"><img src="https://simpleicons.org/icons/tiktok.svg" class="h-5 w-5 "></a>
             </div>
              <a href="#" class="mt-4 md:mt-0 hover:underline">Back to Top ↑</a>
         </div>

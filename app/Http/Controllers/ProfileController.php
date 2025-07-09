@@ -12,6 +12,14 @@ use Illuminate\View\View;
 class ProfileController extends Controller
 {
     /**
+     * Menampilkan halaman dasbor profil pengguna.
+     */
+    public function dashboard(): View
+    {
+        return view('profile.dashboard');
+    }
+
+    /**
      * Display the user's profile form.
      */
     public function edit(Request $request): View

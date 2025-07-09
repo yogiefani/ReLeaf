@@ -1,10 +1,10 @@
 <?php
-// File: app/Models/BookExchange.php
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class BookExchange extends Model
 {
@@ -19,5 +19,9 @@ class BookExchange extends Model
     public function photos()
     {
         return $this->hasMany(BookExchangePhoto::class);
+    }
+    public function coinTransactions(): MorphMany
+    {
+        return $this->morphMany(CoinTransaction::class, 'transactionable');
     }
 }

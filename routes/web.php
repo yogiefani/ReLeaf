@@ -2,14 +2,16 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BookController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\OnboardingController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PageController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\AddressController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\OnboardingController;
 use App\Http\Controllers\ShoppingBagController;
 use App\Http\Controllers\BookExchangeController;
 use App\Http\Controllers\CoinTransactionController;
-use App\Http\Controllers\AddressController;
-use App\Http\Controllers\CheckoutController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,6 +35,11 @@ Route::middleware(['dontHaveSuperAdmin'])->group(function () {
 
     // Halaman utama / Beranda
     Route::get('/', [HomeController::class, 'index'])->name('home');
+    
+    // Route untuk halaman statis
+    Route::get('/collection', [PageController::class, 'collection'])->name('collection');
+    Route::get('/contact-us', [PageController::class, 'contact'])->name('contact');
+    Route::get('/about-us', [PageController::class, 'about'])->name('about');
 
     // Route yang memerlukan autentikasi pengguna
     Route::middleware('auth')->group(function () {
@@ -40,6 +47,7 @@ Route::middleware(['dontHaveSuperAdmin'])->group(function () {
 
         // Profil Pengguna
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+        Route::get('/profile/dashboard', [ProfileController::class, 'dashboard'])->name('profile.dashboard');
         Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
         Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
@@ -73,7 +81,8 @@ Route::middleware(['dontHaveSuperAdmin'])->group(function () {
 
     // Detail Buku (bisa diakses publik)
     Route::get('/book/{slug}', [BookController::class, 'show'])->name('books.show');
+
+    Route::get('/my-orders', [OrderController::class, 'index'])->name('orders.index');
 });
 
-// Route Autentikasi dari Laravel Breeze/UI
 require __DIR__.'/auth.php';

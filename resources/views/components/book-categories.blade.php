@@ -9,15 +9,15 @@
         <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-x-6 gap-y-12">
             @foreach ($featuredBooks as $book)
             <div class="bg-gray-100 rounded-lg shadow-md overflow-hidden">
-                <a href="#" class="group block">
+                <a href="{{ route('books.show', $book->slug) }}" class="group block">
                     <div class="aspect-[2/3] w-full overflow-hidden bg-gray-200 group-hover:opacity-75 transition-opacity">
-                        <img src="{{ asset($book['image']) }}" alt="Sampul buku {{ $book['title'] }}" class="h-full w-full object-cover object-center">
+                        <img src="{{ asset($book->cover_image) }}" alt="Sampul buku {{ $book->title }}" class="h-full w-full object-cover object-center">
                     </div>
 
                     <div class="p-4 font-oxygen">
-                        <h3 class="text-base font-semibold text-brand-dark truncate">{{ $book['title'] }}</h3>
-                        <p class="mt-1 text-sm text-gray-600 truncate">{{ $book['author'] }}</p>
-                        <p class="mt-2 text-sm font-semibold text-brand-dark">{{ $book['price'] }}</p>
+                        <h3 class="text-base font-semibold text-brand-dark truncate">{{ $book->title }}</h3>
+                        <p class="mt-1 text-sm text-gray-600 truncate">{{ $book->author }}</p>
+                        <p class="mt-2 text-sm font-semibold text-brand-dark">Rp{{ number_format($book->price, 0, ',', '.') }}</p>
                     </div>
                 </a>
             </div>
