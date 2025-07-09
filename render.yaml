@@ -5,7 +5,6 @@
 services:
   - type: pserv
     name: releaf_db25
-    version: "14"
     region: singapore
 
   - type: web
