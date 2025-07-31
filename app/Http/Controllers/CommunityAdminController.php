@@ -15,7 +15,7 @@ class CommunityAdminController extends Controller
         $user = Auth::user();
 
         // Hanya admin dan super admin yang bisa akses
-        if (!$user->hasRole('admin') && !$user->hasRole('super_admin')) {
+        if (!$user->hasRole('admin') && !$user->hasRole('Super Admin')) {
             abort(403, 'Tidak memiliki akses');
         }
 
@@ -60,7 +60,8 @@ class CommunityAdminController extends Controller
         DB::transaction(function () use ($order, $user) {
             $order->update([
                 'assigned_to' => $user->id,
-                'delivery_status' => 'preparing'
+                'delivery_status' => 'preparing',
+                'status' => 'processing' // Update status utama juga
             ]);
         });
 
@@ -98,6 +99,20 @@ class CommunityAdminController extends Controller
 
         if ($request->delivery_status === 'delivered' && !$order->delivered_at) {
             $updateData['delivered_at'] = now();
+        }
+
+        // Auto-sync main status berdasarkan delivery status
+        $mainStatusMapping = [
+            'pending' => 'pending',
+            'preparing' => 'processing',
+            'picked_up' => 'processing',
+            'in_transit' => 'shipped',
+            'delivered' => 'shipped',
+            'completed' => 'completed'
+        ];
+
+        if (isset($mainStatusMapping[$request->delivery_status])) {
+            $updateData['status'] = $mainStatusMapping[$request->delivery_status];
         }
 
         $order->update($updateData);
