@@ -75,7 +75,7 @@
                 </div>
 
                 <div class="mt-8 flex flex-col sm:flex-row gap-4">
-                    <a href="{{ route('book-exchange.create') }}"
+                    <a href="{{ route('book-exchange.index') }}"
                         class="inline-block bg-amber-300 hover:bg-amber-400 text-brand-dark font-bold px-8 py-3 rounded-lg shadow-md transition-colors duration-300 text-center">
                         Mulai Tukar Buku
                     </a>
