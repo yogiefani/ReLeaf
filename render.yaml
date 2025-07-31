@@ -3,14 +3,16 @@
 # Simpan file ini di root direktori proyek Anda.
 
 services:
+  # Database PostgreSQL (Layanan Gratis)
   - type: pserv
-    name: releaf_db25
-    version: "14"
+    name: ReLeaf
     region: singapore
+    env: php
 
+  # Layanan Web Aplikasi Laravel
   - type: web
     name: ReLeaf
-    runtime: php
+
     plan: free
     region: singapore
 
@@ -35,8 +37,3 @@ services:
         fromDatabase:
           name: releaf_db25
           property: connectionString
-      - key: APP_URL
-        fromService:
-          type: web
-          name: ReLeaf
-          property: url
