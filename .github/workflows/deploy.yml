@@ -59,5 +59,8 @@ jobs:
             php artisan config:cache
             php artisan view:cache
 
+            # Run seeders untuk data admin dan test data
+            php artisan db:seed 
+
             # (BARU) Menyalin ulang file publik setelah semuanya siap
             cp -rf /home/releafmy/repositories/ReLeaf/public/. /home/releafmy/public_html/
