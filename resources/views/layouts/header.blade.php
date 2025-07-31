@@ -67,6 +67,14 @@
                                 </a>
                             @endif
 
+                            @if (Auth::user()->hasRole('admin') || Auth::user()->hasRole('super_admin'))
+                                <div class="border-t border-gray-100 my-1"></div>
+                                <a href="{{ route('community-admin.dashboard') }}"
+                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 font-semibold">
+                                    <span class="text-blue-600">📦 Community Admin</span>
+                                </a>
+                            @endif
+
                             <!-- Authentication -->
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf

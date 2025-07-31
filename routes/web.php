@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\SuperAdminController;
+use App\Http\Controllers\CommunityAdminController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PageController;
@@ -102,6 +103,14 @@ Route::middleware(['auth', 'superadmin'])->prefix('admin')->name('admin.')->grou
 
     // Riwayat Transaksi Koin
     Route::get('/coin-transactions', [SuperAdminController::class, 'coinTransactions'])->name('coin-transactions');
+});
+
+// Route untuk Community Admin (Admin yang mengelola pengantaran)
+Route::middleware('auth')->prefix('community-admin')->name('community-admin.')->group(function () {
+    Route::get('/dashboard', [CommunityAdminController::class, 'dashboard'])->name('dashboard');
+    Route::post('/take-order/{order}', [CommunityAdminController::class, 'takeOrder'])->name('take-order');
+    Route::patch('/update-status/{order}', [CommunityAdminController::class, 'updateStatus'])->name('update-status');
+    Route::get('/order/{order}', [CommunityAdminController::class, 'orderDetail'])->name('order-detail');
 });
 
 Route::get('/health', function () {

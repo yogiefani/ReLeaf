@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\CartItem;
 use App\Models\UserAddress;
 use App\Models\Order;
+use App\Models\CoinTransaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -20,7 +21,7 @@ class CheckoutController extends Controller
         if ($cartItems->isEmpty()) {
             return redirect()->route('home')->with('info', 'Keranjang Anda kosong.');
         }
-        
+
         $addresses = UserAddress::where('user_id', $user->id)->get();
         $currentAddress = $addresses->firstWhere('is_current', true) ?? $addresses->first();
 
@@ -83,9 +84,18 @@ class CheckoutController extends Controller
                 $item->book->decrement('stock', $item->quantity);
             }
 
-            // 4. Jika bayar dengan koin, kurangi koin pengguna
+            // 4. Jika bayar dengan koin, kurangi koin pengguna dan catat transaksi
             if ($request->payment_method === 'coins') {
                 $user->decrement('coins', $requiredCoins);
+
+                // Catat transaksi koin
+                $user->coinTransactions()->create([
+                    'type' => 'debit',
+                    'amount' => $requiredCoins,
+                    'description' => "Pembelian buku - Order #{$order->order_number}",
+                    'transactionable_type' => Order::class,
+                    'transactionable_id' => $order->id,
+                ]);
             }
 
             // 5. Kosongkan keranjang
@@ -94,7 +104,6 @@ class CheckoutController extends Controller
             DB::commit(); // Semua berhasil, simpan perubahan
 
             return redirect()->route('home')->with('success', 'Pesanan Anda berhasil dibuat! Nomor Pesanan: ' . $order->order_number);
-
         } catch (\Exception $e) {
             DB::rollBack(); // Ada kesalahan, batalkan semua
             return back()->with('error', 'Terjadi kesalahan saat memproses pesanan Anda. Silakan coba lagi.');
