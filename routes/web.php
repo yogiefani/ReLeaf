@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\SuperAdminController;
+use App\Http\Controllers\CommunityAdminController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PageController;
@@ -35,7 +37,7 @@ Route::middleware(['dontHaveSuperAdmin'])->group(function () {
 
     // Halaman utama / Beranda
     Route::get('/', [HomeController::class, 'index'])->name('home');
-    
+
     // Route untuk halaman statis
     Route::get('/collection', [PageController::class, 'collection'])->name('collection');
     Route::get('/contact-us', [PageController::class, 'contact'])->name('contact');
@@ -85,8 +87,34 @@ Route::middleware(['dontHaveSuperAdmin'])->group(function () {
     Route::get('/my-orders', [OrderController::class, 'index'])->name('orders.index');
 });
 
+// Routes untuk Super Admin
+Route::middleware(['auth', 'superadmin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/dashboard', [SuperAdminController::class, 'index'])->name('dashboard');
+
+    // Manajemen Book Exchange
+    Route::get('/book-exchanges', [SuperAdminController::class, 'bookExchanges'])->name('book-exchanges');
+    Route::get('/book-exchanges/{id}', [SuperAdminController::class, 'showExchangeDetail'])->name('book-exchanges.show');
+    Route::post('/book-exchanges/{id}/approve', [SuperAdminController::class, 'approveExchange'])->name('book-exchanges.approve');
+    Route::post('/book-exchanges/{id}/reject', [SuperAdminController::class, 'rejectExchange'])->name('book-exchanges.reject');
+
+    // Manajemen Users
+    Route::get('/users', [SuperAdminController::class, 'users'])->name('users');
+    Route::get('/users/{id}', [SuperAdminController::class, 'showUser'])->name('users.show');
+
+    // Riwayat Transaksi Koin
+    Route::get('/coin-transactions', [SuperAdminController::class, 'coinTransactions'])->name('coin-transactions');
+});
+
+// Route untuk Community Admin (Admin yang mengelola pengantaran)
+Route::middleware('auth')->prefix('community-admin')->name('community-admin.')->group(function () {
+    Route::get('/dashboard', [CommunityAdminController::class, 'dashboard'])->name('dashboard');
+    Route::post('/take-order/{order}', [CommunityAdminController::class, 'takeOrder'])->name('take-order');
+    Route::patch('/update-status/{order}', [CommunityAdminController::class, 'updateStatus'])->name('update-status');
+    Route::get('/order/{order}', [CommunityAdminController::class, 'orderDetail'])->name('order-detail');
+});
+
 Route::get('/health', function () {
     return response()->json(['status' => 'ok']);
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

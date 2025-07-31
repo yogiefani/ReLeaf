@@ -16,7 +16,7 @@ class OrderController extends Controller
     {
         $orders = Auth::user()
             ->orders()
-            ->with('items.book') // Eager load order items and the related book
+            ->with(['items.book', 'assignedTo']) // Tambahkan assignedTo relationship
             ->latest() // Urutkan dari yang terbaru
             ->get();
 

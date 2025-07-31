@@ -29,7 +29,7 @@
         @include('layouts.header')
 
         <main class="flex-grow">
-            {{ $slot }}
+            @yield('content')
         </main>
 
         @include('layouts.footer')
