@@ -1,18 +1,50 @@
-name: Deploy Laravel to cPanel
+name: Build and Deploy Laravel
 
 on:
   push:
     branches:
-      - main # Hanya berjalan saat ada push ke branch 'main'
+      - main
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: 1. Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Deploy to Server
+      - name: 2. Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.2"
+          extensions: mbstring, dom, fileinfo, pdo_mysql, curl, xmlwriter
+          coverage: none
+
+      - name: 3. Install Composer Dependencies
+        run: composer install --no-interaction --prefer-dist --optimize-autoloader
+
+      - name: 4. Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "20" # Anda bisa sesuaikan dengan versi Node.js Anda
+
+      - name: 5. Install NPM & Build Assets
+        run: |
+          npm install
+          npm run build
+
+      - name: 6. Deploy to Server using rsync
+        uses: easingthemes/ssh-deploy@main
+        with:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          REMOTE_HOST: ${{ secrets.SSH_HOST }}
+          REMOTE_USER: ${{ secrets.SSH_USERNAME }}
+          REMOTE_PORT: 64000 # Pastikan port ini benar
+          SOURCE: "./" # Unggah semua dari direktori ini
+          TARGET: "/home/releafmy/repositories/ReLeaf/" # Tujuan di server
+          # Folder/file yang TIDAK akan diunggah
+          EXCLUDE: "/.git/, /.github/, /node_modules/, .env"
+
+      - name: 7. Run Final Artisan Commands
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SSH_HOST }}
@@ -20,28 +52,12 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 64000
           script: |
-            # Masuk ke direktori proyek Anda di server
             cd /home/releafmy/repositories/ReLeaf
-
-            # Tarik perubahan terbaru dari branch main
-            git pull origin main
-
-            # Install dependensi PHP (tanpa interaksi)
-            composer install --no-interaction --prefer-dist --optimize-autoloader
-
-            npm install
-            npm run build
-
-            php artisan storage:link
-
-            # Jalankan migrasi database
-            # Opsi --force diperlukan untuk lingkungan non-interaktif
             php artisan migrate --force
-
+            php artisan storage:link
             php artisan optimize:clear
-
-            # Optimasi cache untuk production
             php artisan config:cache
-            php artisan route:cache
             php artisan view:cache
-            php artisan event:cache
+
+            # (BARU) Menyalin ulang file publik setelah semuanya siap
+            cp -rf /home/releafmy/repositories/ReLeaf/public/. /home/releafmy/public_html/
