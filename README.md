@@ -1,61 +1,101 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Dashboard Super Admin - AirBook
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Overview
 
-## About Laravel
+Dashboard Super Admin adalah panel kontrol untuk mengelola sistem tukar buku dan koordinasi pemberian koin kepada user yang mengajukan tukar buku.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Fitur Utama
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### 1. Dashboard
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+-   **Statistik Overview**: Melihat total users, pengajuan, dan distribusi koin
+-   **Status Pengajuan**: Grafik distribusi status (Disetujui, Menunggu, Ditolak)
+-   **Pengajuan Terbaru**: Daftar 5 pengajuan tukar buku terbaru
+-   **Quick Actions**: Akses cepat ke review pengajuan, kelola users, dan transaksi koin
 
-## Learning Laravel
+### 2. Manajemen Tukar Buku (`/admin/book-exchanges`)
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+-   **Filter & Search**: Filter berdasarkan status dan pencarian berdasarkan judul, penulis, kode, atau nama user
+-   **Daftar Pengajuan**: Tabel lengkap semua pengajuan dengan foto, detail, dan status
+-   **Review Detail**: Klik "Detail" untuk melihat informasi lengkap pengajuan
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### 3. Detail Pengajuan (`/admin/book-exchanges/{id}`)
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+-   **Informasi Lengkap**: Judul, penulis, genre, bahasa, kondisi buku
+-   **Foto Buku**: Galeri foto yang dapat diperbesar
+-   **Info User**: Profil user yang mengajukan
+-   **Aksi Review**:
+    -   **Setujui**: Tentukan jumlah koin (1-500) yang akan diberikan
+    -   **Tolak**: Berikan alasan penolakan
 
-## Laravel Sponsors
+### 4. Manajemen Users (`/admin/users`)
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+-   **Daftar Users**: Semua user dengan informasi koin dan aktivitas
+-   **Detail User**: Riwayat tukar buku, transaksi koin, dan pembelian
 
-### Premium Partners
+### 5. Transaksi Koin (`/admin/coin-transactions`)
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+-   **Riwayat Lengkap**: Semua transaksi koin (credit/debit)
+-   **Tracking**: Monitor aktivitas koin dalam sistem
 
-## Contributing
+## Akses Dashboard
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### Login Super Admin
 
-## Code of Conduct
+-   Email: `superadmin@airbook.com`
+-   Password: `superadmin123`
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### URL Dashboard
 
-## Security Vulnerabilities
+-   Dashboard Utama: `/admin/dashboard`
+-   Akses melalui dropdown profil: "🛡️ Super Admin"
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## Alur Kerja Review Pengajuan
 
-## License
+1. **Notifikasi**: Dashboard menampilkan jumlah pengajuan yang menunggu review
+2. **Review**: Masuk ke "Tukar Buku" > Filter "Menunggu Penilaian"
+3. **Detail**: Klik "Detail" pada pengajuan yang ingin direview
+4. **Evaluasi**: Lihat foto, deskripsi kondisi, dan informasi user
+5. **Keputusan**:
+    - **Setujui**: Tentukan koin yang pantas (rekomendasi 25-100 koin)
+    - **Tolak**: Berikan alasan yang jelas dan konstruktif
+6. **Otomatis**: Sistem akan memberikan koin ke user dan mencatat transaksi
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Sistem Koin
+
+### Pemberian Koin
+
+-   **Range**: 1-500 koin per pengajuan
+-   **Rekomendasi**:
+    -   Kondisi sangat baik: 75-100 koin
+    -   Kondisi baik: 50-75 koin
+    -   Kondisi cukup: 25-50 koin
+    -   Buku langka/populer: +bonus 10-25 koin
+
+### Otomasi
+
+-   Koin otomatis ditambahkan ke akun user
+-   Transaksi tercatat di sistem
+-   User mendapat notifikasi di riwayat
+
+## Keamanan
+
+-   Hanya user dengan role "Super Admin" yang dapat mengakses
+-   Middleware protection pada semua routes admin
+-   Error 403 untuk unauthorized access
+
+## Tips Penggunaan
+
+1. Gunakan filter untuk fokus pada status tertentu
+2. Review foto dengan cermat sebelum memutuskan
+3. Berikan alasan penolakan yang konstruktif
+4. Monitor distribusi koin secara berkala
+5. Gunakan Quick Actions untuk efisiensi
+
+## Teknologi
+
+-   Laravel 11
+-   Tailwind CSS
+-   AlpineJS untuk interaktivitas
+-   MySQL database
+-   File storage untuk foto
